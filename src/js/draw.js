@@ -14,14 +14,10 @@ function draw(data){
 	var nodes = [];
 
 	for(var i=1; i<=numNodes;i++){
-		for (var j = 1; j<= numRounds; j++){
-			var round = {};
-			round['round'] = 'Round ' + j;
-			round['vals'] = {};
-		}
+		
 		var obj = {};
 		obj['round'] = i; 
-		nodes.push(obj);
+		//nodes.push(obj);
 	};
 
 	console.log(nodes);

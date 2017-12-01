@@ -1,1 +1,1 @@
-import draw from './js/draw.js';
+const draw = require('./js/draw.js')

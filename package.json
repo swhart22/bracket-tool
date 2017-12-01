@@ -28,6 +28,7 @@
   "dependencies": {
     "d3": "^4.12.0",
     "lodash": "^4.17.4",
-    "miso.dataset": "^0.4.1"
+    "miso.dataset": "^0.4.1",
+    "sheetsy": "^2.1.1"
   }
 }

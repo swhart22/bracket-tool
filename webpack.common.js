@@ -5,8 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const paths = {
 	src: path.join(__dirname, 'src'),
-	dist: path.join(__dirname, 'dist'),
-	data: path.join(__dirname, 'data')
+	dist: path.join(__dirname, 'dist')
+	//data: path.join(__dirname, 'data')
 }
 
 module.exports = {
@@ -18,13 +18,13 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'OTS Bracket Tool',
 			template: './src/templates/index.html'
-		}),
+		})/*,
 		new CopyWebpackPlugin([
 			{
 				from: paths.data,
 				to: paths.dist + '/data'
 			}
-		])
+		])*/
 	],
 	output:{
 		filename: '[name].bundle.js',

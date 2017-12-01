@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import '../css/nbcotsbase.css';
-//import data from '../../data/data.csv';
 import * as d3 from 'd3';
 import colors from './colors.js';
 import lines from './lines.js';
@@ -8,7 +7,7 @@ import sheetsy from 'sheetsy';
 const {urlToKey, getWorkbook, getSheet } = sheetsy;
 import metadata from './proj-config.js';
 
-getSheet(metadata['key'], 'od6').then(stuff => {
+getSheet(metadata['key'], 'od6').then(function grab(stuff){
 	//console.log(stuff);
 	var data = [];
 	var datanew = stuff.rows;
@@ -24,11 +23,15 @@ getSheet(metadata['key'], 'od6').then(stuff => {
 		o['Result Final 2'] = d['resultfinal2'];
 		o['Result Final 4'] = d['resultfinal4'];
 		o['Result Final 16'] = d['resultfinal16'];
+		o['Result Final 8'] = d['resultfinal8'];
 		o['Result Winner'] = d['resultwinner'];
 		data.push(o);
 	});
-	console.log(data);
+	
+	return data;
 
+}).then(function draw(data){
+	
 	//the actual graphic
 	var width = parseInt(d3.select('#container').style("width"));
 	var height = parseInt(d3.select('#container').style("height"));

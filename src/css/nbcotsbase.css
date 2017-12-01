@@ -63,6 +63,10 @@ p {
 	border-style:dotted;
 	padding:0px 4px 0px 4px;
 }
+/*for polls*/
+.excitemInfo{
+	display:inline-block;
+}
 
 @media (max-width: 960px ) {
 	#container{

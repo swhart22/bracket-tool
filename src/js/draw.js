@@ -7,30 +7,24 @@ import sheetsy from 'sheetsy';
 const {urlToKey, getWorkbook, getSheet } = sheetsy;
 import metadata from './proj-config.js';
 
-getSheet(metadata['key'], 'od6').then(function grab(stuff){
-	//console.log(stuff);
-	var data = [];
-	var datanew = stuff.rows;
-	
-	datanew.forEach((d, i) => {
-		var o = {};
-		o['Seed'] = d['seed'];
-		o['Competitor'] = d['competitor'];
-		o['Poll 4 ID'] = d['poll4id'];
-		o['Poll 8 ID'] = d['poll8id'];
-		o['Poll 16 ID'] = d['poll16id'];
-		o['Poll 32 ID'] = d['poll32id'];
-		o['Result Final 2'] = d['resultfinal2'];
-		o['Result Final 4'] = d['resultfinal4'];
-		o['Result Final 16'] = d['resultfinal16'];
-		o['Result Final 8'] = d['resultfinal8'];
-		o['Result Winner'] = d['resultwinner'];
-		data.push(o);
-	});
-	
-	return data;
+function draw(data){
+	var numCols = metadata['size'] / 2; // => 8
+	var numRounds = Math.floor(Math.sqrt(metadata['size']) + 1);
+	var numNodes = 31;
+	var nodes = [];
 
-}).then(function draw(data){
+	for(var i=1; i<=numNodes;i++){
+		for (var j = 1; j<= numRounds; j++){
+			var round = {};
+			round['round'] = 'Round ' + j;
+			round['vals'] = {};
+		}
+		var obj = {};
+		obj['round'] = i; 
+		nodes.push(obj);
+	};
+
+	console.log(nodes);
 	
 	//the actual graphic
 	var width = parseInt(d3.select('#container').style("width"));
@@ -69,8 +63,6 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.key(d => {return 'poll4-' + d['Poll 4 ID']})
 		.entries(data.filter(d => {return d['Poll 4 ID'] != 'out'}));
 
-	console.log(polls4);
-
 	var drawLine = d3.line()
 		.curve(d3.curveBasis)
 		.x(d => {return d.x})
@@ -103,10 +95,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.attr('d', drawLine(lines['line']))
 		.attr('class', d => {
 			if(d['Result Final 16'] == 'LOSE'){
-				return 'round1-path winpath';
+				return 'round1-path losepath';
 			}
 			else{
-				return 'round1-path losepath';
+				return 'round1-path winpath';
 			}
 		})
 		.attr('fill','none')
@@ -133,10 +125,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.append('div')
 		.attr('class', d => {
 			if(d['Result Final 16'] == 'LOSE'){
-				return 'labels round1-labels winlabel';
+				return 'labels round1-labels loselabel';
 			}
 			else{
-				return 'labels round1-labels loselabel';
+				return 'labels round1-labels winlabel';
 			}
 		})
 		.style('position','absolute')
@@ -187,10 +179,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.append("path")
 		.attr('class', d => {
 			if(d['Result Final 8'] == 'LOSE'){
-				return 'round2-paths winpath';
+				return 'round2-paths losepath';
 			}
 			else{
-				return 'round2-paths losepath';
+				return 'round2-paths winpath';
 			}
 		})
 		.attr('d', drawLine(lines['round two']))
@@ -218,10 +210,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.append('div')
 		.attr('class', d => {
 			if(d['Result Final 8'] == 'LOSE'){
-				return 'labels round2-labels winlabel';
+				return 'labels round2-labels loselabel';
 			}
 			else{
-				return 'labels round2-labels loselabel';
+				return 'labels round2-labels winlabel';
 			}
 		})
 		.style('position','absolute')
@@ -256,10 +248,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.append('div')
 		.attr('class', d => {
 			if(d['Result Final 4'] == 'LOSE'){
-				return 'labels round3-labels winlabel';
+				return 'labels round3-labels loselabel';
 			}
 			else{
-				return 'labels round3-labels loselabel';
+				return 'labels round3-labels winlabel';
 			}
 		})
 		.style('position','absolute')
@@ -308,10 +300,10 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 		.append("path")
 		.attr('class', d => {
 			if(d['Result Final 4'] == 'LOSE'){
-				return 'round3-paths winpath';
+				return 'round3-paths losepath';
 			}
 			else{
-				return 'round3-paths losepath';
+				return 'round3-paths winpath';
 			}
 		})
 		.attr('d', drawLine(lines['round three']))	
@@ -377,6 +369,7 @@ getSheet(metadata['key'], 'od6').then(function grab(stuff){
 
 	d3.selectAll('.winlabel')
 		.style('font-weight', 700)
-		.style('border-style', 'solid');
-			
-});
+		.style('border-style', 'solid');		
+};
+
+export default draw;

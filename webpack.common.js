@@ -18,7 +18,8 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'OTS Bracket Tool',
 			template: './src/templates/index.html'
-		})/*,
+		})
+		/*,
 		new CopyWebpackPlugin([
 			{
 				from: paths.data,

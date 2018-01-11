@@ -5,10 +5,35 @@ function embed(id) {
 }
 
 function polls(data){
-	//var pollsForFinals = d3.map((d => {return d['Poll 4 ID'];}).keys());
-	var pollsForFinals = d3.map(data, d => {return d['Poll 8 ID'];}).keys().filter(e => {return e != 'out';});
 
-	pollsForFinals.forEach(p => {
+	var round1polls = d3.map(data, d => {return d['Poll ID - Round 1'];}).keys();
+
+	var round2polls = d3.map(data, d => {return d['Poll ID - Round 2'];}).keys();
+
+	var round3polls = d3.map(data, d => {return d['Poll ID - Round 3'];}).keys();
+
+	var round4polls = d3.map(data, d => {return d['Poll ID - Round 4'];}).keys();
+
+	function checkRound(){
+		if (round1polls.length == 8 && round2polls.length <= 1){
+			return round1polls;
+		}
+		else if (round2polls.length >= 2 && round3polls.length <= 1){
+			return round2polls;
+		}
+		else if (round3polls.length >= 2 && round4polls.length <= 1){
+			return round3polls;
+		}
+		else if (round4polls.length >= 2){
+			return round4polls;
+		}
+	};
+
+	console.log(round2polls);
+	console.log(round3polls.length);
+	var currentPolls = checkRound();
+
+	currentPolls.forEach(p => {
 		d3.select('#polls')
 			.append('div')
 			.attr('class','excitemInfo')

@@ -1,6 +1,6 @@
 import sheetsy from 'sheetsy';
 const {urlToKey, getWorkbook, getSheet } = sheetsy;
-import draw from './draw.js';
+import desktop from './desktop.js';
 import polls from './polls.js';
 
 //change this to the appropriate spreadsheet url
@@ -21,22 +21,29 @@ const metadata = {
 //grabs the data, then draws the chart, then draws the polls
 
 getSheet(metadata['key'], 'od6').then((stuff) => {
-	//console.log(stuff);
+	console.log(stuff);
 	var data = [];
 	
 	stuff.rows.forEach((d, i) => {
 		var o = {};
 		o['Seed'] = d['seed'];
-		o['Competitor'] = d['competitor'];
-		o['Poll 4 ID'] = d['poll4id'];
-		o['Poll 8 ID'] = d['poll8id'];
-		o['Poll 16 ID'] = d['poll16id'];
-		o['Poll 32 ID'] = d['poll32id'];
-		o['Result Final 2'] = d['resultfinal2'];
-		o['Result Final 4'] = d['resultfinal4'];
-		o['Result Final 16'] = d['resultfinal16'];
-		o['Result Final 8'] = d['resultfinal8'];
-		o['Result Winner'] = d['resultwinner'];
+
+		o['Competitor - Round 1'] = d['competitor-round1'];
+		o['Poll ID - Round 1'] = d['pollid-round1'];
+		o['Result - Round 1'] = d['result-round1'];
+
+		o['Competitor - Round 2'] = d['competitor-round2'];
+		o['Poll ID - Round 2'] = d['pollid-round2'];
+		o['Result - Round 2'] = d['result-round2'];
+
+		o['Competitor - Round 3'] = d['competitor-round3'];
+		o['Poll ID - Round 3'] = d['pollid-round3'];
+		o['Result - Round 3'] = d['result-round3'];
+
+		o['Competitor - Round 4'] = d['competitor-round4'];
+		o['Poll ID - Round 4'] = d['pollid-round4'];
+		o['Result - Round 4'] = d['result-round4'];
+		
 		data.push(o);
 	});
 	
@@ -45,7 +52,16 @@ getSheet(metadata['key'], 'od6').then((stuff) => {
 }).then((data) => {
 	//once data is loaded, execute draw and polls functions
 	//from ./draw.js
-	draw(data);
+	var container = document.querySelector("#container");
+	var wWidth = container.offsetWidth;
+
+	console.log(wWidth);
+	if (wWidth >= 400){
+		desktop(data);
+	}
+	else{
+		//draw(data);
+	}
 
 	//from ./polls.js
 	polls(data);
